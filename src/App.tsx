@@ -39,7 +39,7 @@ function App() {
   })
 
   const fallIntervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
-  const fastFallRef = useRef<boolean>(false)
+  const [isFastFalling, setIsFastFalling] = useState<boolean>(false)
 
   const startGame = useCallback(() => {
     const nextPiece = createTetromino()
@@ -178,7 +178,7 @@ function App() {
           break
         case 'ArrowDown':
           e.preventDefault()
-          fastFallRef.current = true
+          setIsFastFalling(true)
           break
         case 'ArrowUp':
         case ' ':
@@ -199,7 +199,7 @@ function App() {
 
     const handleKeyUp = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown') {
-        fastFallRef.current = false
+        setIsFastFalling(false)
       }
     }
 
@@ -220,7 +220,7 @@ function App() {
       return
     }
 
-    const speed = fastFallRef.current
+    const speed = isFastFalling
       ? FAST_FALL_SPEED
       : Math.max(INITIAL_FALL_SPEED - gameState.level * FALL_SPEED_DECREASE, 100)
 
@@ -233,7 +233,7 @@ function App() {
         clearInterval(fallIntervalRef.current)
       }
     }
-  }, [gameState.isPlaying, gameState.isPaused, gameState.isGameOver, gameState.level, movePiece])
+  }, [gameState.isPlaying, gameState.isPaused, gameState.isGameOver, gameState.level, isFastFalling, movePiece])
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 md:p-8">
