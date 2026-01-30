@@ -1,22 +1,19 @@
-import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import { defineConfig, PluginOption } from "vite";
-
+import tailwindcss from "@tailwindcss/vite";
+import { resolve } from "path";
 import sparkPlugin from "@github/spark/spark-vite-plugin";
 import createIconImportProxy from "@github/spark/vitePhosphorIconProxyPlugin";
-import { resolve } from "path";
 
 const projectRoot = process.env.PROJECT_ROOT || import.meta.dirname;
 
-// CHANGE: add base
 export default defineConfig({
-  base: "/tetris-game/",
+  base: "/tetris-game/",   // <-- IMPORTANT: repo name with leading+trailing slash
   plugins: [
     react(),
     tailwindcss(),
-    // DO NOT REMOVE
-    createIconImportProxy() as PluginOption,
-    sparkPlugin() as PluginOption,
+    createIconImportProxy(),
+    sparkPlugin(),
   ],
   resolve: {
     alias: {
